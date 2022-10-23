@@ -11,7 +11,9 @@ export default class Player extends Block {
         // this.y = this.game.mouse.y;
         const speed = this.speed * dt;
         // const easing = 0.05;
-
+        let dx = this.game.mouse.x - this.x;
+        let dy = this.game.mouse.y - this.y;
+        this.angle = Math.atan2(dy, dx);
 
         if (this.game.keys[87]) {
             this.y -= speed;
@@ -25,6 +27,13 @@ export default class Player extends Block {
         if (this.game.keys[68]) {
             this.x += speed;
         }
+    }
+    render(ctx: CanvasRenderingContext2D): void {
+        super.render(ctx);
+        ctx.fillStyle = '#ff0000';
+        ctx.fillRect(this.x, this.y - 1.5, 100, 3);
+
+
     }
 
 }

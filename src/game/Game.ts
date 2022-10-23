@@ -13,7 +13,7 @@ export default class Game {
     mouse = {
         x: 0,
         y: 0,
-        isDown: false,
+        isDown: 0,
     };
     keys: any = {};
     polled: any = {};
@@ -39,13 +39,13 @@ export default class Game {
             //     aiPathPoint.push([dx, dy]);
             //     localStorage.aiPathPoint = JSON.stringify(aiPathPoint);
             // }
-            this.mouse.isDown = true;
+            this.mouse.isDown++;
             // clickPoint = [];
             // clickPoint.push([dx, dy]);
         });
 
         this.el.addEventListener('mouseup', (e) => {
-            this.mouse.isDown = false;
+            this.mouse.isDown = 0;
         });
 
         window.addEventListener('keydown', (e: KeyboardEvent) => {
@@ -56,9 +56,8 @@ export default class Game {
             this.keys[e.keyCode] = false;
         })
     }
-    find(compName = ''): Component {
-        if (compName) return null;
-        return this.components.find(compName);
+    find(compName = ''): Component | undefined {
+        return this.components.find(el => el.name == compName);
     }
     poll() {
         Object.keys(this.keys).forEach((k) => {
@@ -82,8 +81,19 @@ export default class Game {
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
         ctx.restore();
         this.components.forEach(comp => {
+
             ctx.save();
+            ctx.translate(comp.x, comp.y);
+            ctx.rotate(comp.angle);
+            ctx.translate(-comp.x, -comp.y);
+            // ctx.restore();
+
             comp.render(ctx);
+
+            ctx.translate(comp.x, comp.y);
+            ctx.rotate(-comp.angle);
+            ctx.translate(-comp.x, -comp.y);
+
             ctx.restore();
         });
     }

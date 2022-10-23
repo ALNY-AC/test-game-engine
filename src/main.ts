@@ -2,6 +2,7 @@ import Block from './game/components/Block';
 import Npc from './game/components/Npc';
 import Player from './game/components/Player';
 import Scene from './game/components/Scene';
+import Tag from './game/components/Tag';
 import Game from './game/Game';
 
 import './style.css'
@@ -24,9 +25,11 @@ game.addComponent(scene);
 // let block = new Block();
 // game.addComponent(block);
 
-let player = new Player();
+let player = new Player('player');
 game.addComponent(player);
 
-let npc = new Npc();
+let npc = new Npc('npc');
 game.addComponent(npc);
+
+game.addComponent(new Tag());
 

@@ -10,10 +10,8 @@ export default class Block extends Component {
     update(dt: number): void {
     }
     render(ctx: CanvasRenderingContext2D): void {
-
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-
+        ctx.fillRect(this.x - this.w * 0.5, this.y - this.h * 0.5, this.w, this.h);
     }
 
 }

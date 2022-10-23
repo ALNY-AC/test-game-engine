@@ -249,8 +249,6 @@ renders.push(dt => {
     ctx.translate(-user.x - w / 2, -user.y - h / 2);
 
     ctx.fillRect(user.x, user.y, w, h);
-    // 子弹
-
 
     ctx.fillStyle = '#ff0000';
     ctx.fillRect(user.x + w, user.y + w / 2 - (h * 0.2) / 2, 20, h * 0.2);

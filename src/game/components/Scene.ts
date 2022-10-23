@@ -2,8 +2,8 @@ import Component from "../core/Component";
 
 export default class Scene extends Component {
 
-    cellW = 30;
-    cellH = 30;
+    cellW = 20;
+    cellH = 20;
 
     update(dt: number): void {
 
