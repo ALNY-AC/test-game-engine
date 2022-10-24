@@ -56,16 +56,15 @@ export default class Npc extends Block {
         super.render(ctx);
         ctx.fillStyle = '#f00';
         ctx.fillRect(this.x, this.y - 1.5, 100, 3);
-        if (this.target) {
-
-            ctx.beginPath();
-            ctx.strokeStyle = "#fff";
-            ctx.lineWidth = 1;
-            ctx.moveTo(this.x, this.y);
-            ctx.lineTo(this.target.x, this.target.y);
-            ctx.stroke();
-            ctx.closePath();
-        }
+        // if (this.target) {
+        //     ctx.beginPath();
+        //     ctx.strokeStyle = "#fff";
+        //     ctx.lineWidth = 1;
+        //     ctx.moveTo(this.x, this.y);
+        //     ctx.lineTo(this.target.x, this.target.y);
+        //     ctx.stroke();
+        //     ctx.closePath();
+        // }
 
     }
 

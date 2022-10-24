@@ -5,14 +5,14 @@ import Scene from './game/components/Scene';
 import Tag from './game/components/Tag';
 import Game from './game/Game';
 
-import './style.css'
+import './style.scss'
 
 // document.querySelector<HTMLDivElement>('#app')!.innerHTML 
 
 const canvas = document.createElement('canvas');
 document.body.appendChild(canvas);
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = 700;
+canvas.height = 700;
 
 const game = new Game();
 game.el = canvas;

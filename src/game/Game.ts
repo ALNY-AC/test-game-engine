@@ -17,10 +17,11 @@ export default class Game {
     };
     keys: any = {};
     polled: any = {};
-
+    // static 
     run() {
         if (!this.el) return;
         this.ctx = <CanvasRenderingContext2D>this.el.getContext("2d");
+        this.sceneWidth = this.el.width;
         this.sceneHeight = this.el.height;
         this.initEvent();
         this.animate();
@@ -28,8 +29,8 @@ export default class Game {
     initEvent() {
 
         this.el.addEventListener('mousemove', (e) => {
-            this.mouse.x = e.offsetX;
-            this.mouse.y = e.offsetY;
+            this.mouse.x = e.offsetX //- this.sceneWidth * 0.5;
+            this.mouse.y = e.offsetY //- this.sceneHeight * 0.5;
         });
 
         this.el.addEventListener('mousedown', (e) => {
@@ -78,23 +79,18 @@ export default class Game {
     render(ctx: CanvasRenderingContext2D) {
         ctx.save();
         ctx.fillStyle = "#000000";
-        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+        ctx.fillRect(0, 0, this.sceneWidth, this.sceneHeight);
         ctx.restore();
+        // ctx.translate(this.sceneWidth * 0.5, this.sceneHeight * 0.5)
         this.components.forEach(comp => {
-
             ctx.save();
             ctx.translate(comp.x, comp.y);
             ctx.rotate(comp.angle);
-            ctx.translate(-comp.x, -comp.y);
-            // ctx.restore();
+            ctx.translate(-(comp.x), -(comp.y));
 
             comp.render(ctx);
-
-            ctx.translate(comp.x, comp.y);
-            ctx.rotate(-comp.angle);
-            ctx.translate(-comp.x, -comp.y);
-
             ctx.restore();
+
         });
     }
     addComponent(comp: Component) {
