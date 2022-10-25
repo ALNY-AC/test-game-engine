@@ -5,6 +5,7 @@ import Player from './game/components/Player';
 import Scene from './game/components/Scene';
 import Tag from './game/components/Tag';
 import Game from './game/Game';
+import Ai from './game/script/Ai';
 
 import './style.scss'
 
@@ -31,8 +32,13 @@ game.addComponent(scene);
 let player = new Player('player');
 game.addComponent(player);
 
-let npc = new Npc('npc');
-game.addComponent(npc);
+
+for (let i = 0; i < 10; i++) {
+    game.addComponent(new Npc('npc'));
+}
 
 game.addComponent(new Tag());
 
+
+
+game.addComponent(new Ai());

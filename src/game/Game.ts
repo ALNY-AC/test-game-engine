@@ -18,6 +18,9 @@ export default class Game {
     };
     keys: any = {};
     polled: any = {};
+    fps = 0;
+    fpsPre = 0;
+    time = 0;
     // static 
     run() {
         if (!this.el) return;
@@ -36,8 +39,8 @@ export default class Game {
             let offsetX = camera.offsetX;
             let offsetY = camera.offsetY;
 
-            this.mouse.x = e.offsetX - offsetX //- this.sceneWidth * 0.5;
-            this.mouse.y = e.offsetY - offsetY //- this.sceneHeight * 0.5;
+            this.mouse.x = e.offsetX - offsetX - this.sceneWidth * 0.5;
+            this.mouse.y = e.offsetY - offsetY - this.sceneHeight * 0.5;
         });
 
         this.el.addEventListener('mousedown', (e) => {
@@ -48,6 +51,14 @@ export default class Game {
             //     localStorage.aiPathPoint = JSON.stringify(aiPathPoint);
             // }
             this.mouse.isDown++;
+
+            let camera = <Camera>this.find('Camera');
+
+            let offsetX = camera.offsetX;
+            let offsetY = camera.offsetY;
+
+            this.mouse.x = e.offsetX - offsetX - this.sceneWidth * 0.5;
+            this.mouse.y = e.offsetY - offsetY - this.sceneHeight * 0.5;
             // clickPoint = [];
             // clickPoint.push([dx, dy]);
         });
@@ -68,6 +79,11 @@ export default class Game {
     find(compName = ''): Component | undefined {
         return this.components.find(el => el.name == compName);
     }
+
+    finds(compName = ''): Component[] | undefined {
+        return this.components.filter(el => el.name == compName);
+    }
+
     poll() {
         Object.keys(this.keys).forEach((k) => {
             if (!this.polled[k]) this.polled[k] = 0;
@@ -89,21 +105,44 @@ export default class Game {
         ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, this.sceneWidth, this.sceneHeight);
         ctx.restore();
+
+        ctx.save();
+
+        ctx.fillStyle = "#fff";
+        ctx.textAlign = "left";
+        ctx.font = "14px Arial";
+        ctx.fillText(`FPS ${this.fpsPre}`, 10, 20);
+        ctx.restore();
+
         // ctx.translate(this.sceneWidth * 0.5, this.sceneHeight * 0.5)
         let camera = <Camera>this.find('Camera');
-        let offsetX = camera.offsetX;
-        let offsetY = camera.offsetY;
-        ctx.translate(offsetX, offsetY)
+        let cameraOffsetX = camera.offsetX;
+        let cameraOffsetY = camera.offsetY;
+        let offsetX = cameraOffsetX + this.sceneWidth * 0.5;
+        let offsetY = cameraOffsetY + this.sceneHeight * 0.5;
+        ctx.translate(offsetX, offsetY);
+
         this.components.forEach(comp => {
             ctx.save();
-            ctx.translate(comp.x, comp.y);
-            ctx.rotate(comp.angle);
-            ctx.translate(-(comp.x), -(comp.y));
+            let compOffsetX = comp.x + comp.w * 0.5;
+            let compOffsetY = comp.y + comp.h * 0.5;
 
+            ctx.translate(compOffsetX, compOffsetY);
+            ctx.rotate(comp.angle);
+            ctx.translate(-compOffsetX, -compOffsetY);
+
+            // ctx.translate(offsetX + comp.x, offsetY + comp.y);
+            // ctx.translate(compOffsetX - comp.w * 0.5 - comp.x, compOffsetY - comp.h * 0.5 - comp.y);
             comp.render(ctx);
+            // ctx.translate(-(compOffsetX - comp.w * 0.5 - comp.x), -(compOffsetY - comp.h * 0.5 - comp.y));
+
+            // ctx.translate(-(offsetX - comp.x), -(offsetY - comp.y));
+
+
             ctx.restore();
 
         });
+
     }
     addComponent(comp: Component) {
         comp.game = this;
@@ -113,6 +152,16 @@ export default class Game {
     animate(time: number = 0) {
         this.timeDt = (time - this.timeA) / 1000;
         this.timeA = time;
+        this.time += this.timeDt;
+        if (this.time >= 1) {
+            this.fpsPre = this.fps;
+            this.fps = 0;
+            this.time = 0;
+        }
+        this.fps++;
+        // console.warn(this.fps);
+
+        // if(){}
         this.update(this.timeDt);
         this.ctx.save();
         this.render(this.ctx);

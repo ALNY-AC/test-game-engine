@@ -3,9 +3,11 @@ import Camera from "./Camera";
 
 export default class Player extends Block {
 
-    speed: number = 300;
+    speed: number = 1000;
 
     start(): void {
+        // this.x = 500;
+        // this.y = 500;
     }
     update(dt: number): void {
         // this.x = this.game.mouse.x;
@@ -30,8 +32,8 @@ export default class Player extends Block {
         }
         let camera = <Camera>this.game.find('Camera');
         if (camera) {
-            camera.offsetX = this.x;
-            camera.offsetY = this.y;
+            camera.offsetX = -this.x;
+            camera.offsetY = -this.y;
         }
 
     }

@@ -19,20 +19,24 @@ export default class Npc extends Block {
     update(dt: number): void {
         this.dt = dt;
         if (!this.player) this.player = <Player>this.game.find('player');
-        if (this.game.mouse.isDown) this.toPoint(new V2(this.game.mouse.x, this.game.mouse.y));
+        // if (this.game.mouse.isDown) this.toPoint(new V2(this.game.mouse.x, this.game.mouse.y));
         if (this.target) this.move(dt);
 
     }
-    toPoint(v2: V2): void {
+    moveTo(v2: V2): void {
+        this.rotateTo(v2);
+        this.toPoint(v2);
+    }
+    rotateTo(v2: V2) {
         let dx = v2.x - this.x;
         let dy = v2.y - this.y;
         let angle = Math.atan2(dy, dx);
         this.angle = angle;
-
+    }
+    toPoint(v2: V2): void {
         // 速度分量
-        this.velocity = new V2(Math.cos(angle) * this.speed * this.dt, Math.sin(angle) * this.speed * this.dt);
+        this.velocity = new V2(Math.cos(this.angle) * this.speed * this.dt, Math.sin(this.angle) * this.speed * this.dt);
         this.target = v2;
-
     }
     move(dt: number) {
 
