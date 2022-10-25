@@ -14,6 +14,8 @@ export default class Game {
     mouse = {
         x: 0,
         y: 0,
+        wordX: 0,
+        wordY: 0,
         isDown: 0,
     };
     keys: any = {};
@@ -32,6 +34,7 @@ export default class Game {
     }
     initEvent() {
 
+
         this.el.addEventListener('mousemove', (e) => {
 
             let camera = <Camera>this.find('Camera');
@@ -39,8 +42,10 @@ export default class Game {
             let offsetX = camera.offsetX;
             let offsetY = camera.offsetY;
 
-            this.mouse.x = e.offsetX - offsetX - this.sceneWidth * 0.5;
-            this.mouse.y = e.offsetY - offsetY - this.sceneHeight * 0.5;
+            this.mouse.x = e.offsetX //- offsetX - this.sceneWidth * 0.5;
+            this.mouse.y = e.offsetY //- offsetY - this.sceneHeight * 0.5;
+            this.mouse.wordX = e.offsetX - offsetX - this.sceneWidth * 0.5;
+            this.mouse.wordY = e.offsetY - offsetY - this.sceneHeight * 0.5;
         });
 
         this.el.addEventListener('mousedown', (e) => {
@@ -50,17 +55,17 @@ export default class Game {
             //     aiPathPoint.push([dx, dy]);
             //     localStorage.aiPathPoint = JSON.stringify(aiPathPoint);
             // }
-            this.mouse.isDown++;
+            this.mouse.isDown = 1;
 
             let camera = <Camera>this.find('Camera');
 
             let offsetX = camera.offsetX;
             let offsetY = camera.offsetY;
 
-            this.mouse.x = e.offsetX - offsetX - this.sceneWidth * 0.5;
-            this.mouse.y = e.offsetY - offsetY - this.sceneHeight * 0.5;
-            // clickPoint = [];
-            // clickPoint.push([dx, dy]);
+            this.mouse.x = e.offsetX;
+            this.mouse.y = e.offsetY;
+            this.mouse.wordX = e.offsetX - offsetX - this.sceneWidth * 0.5;
+            this.mouse.wordY = e.offsetY - offsetY - this.sceneHeight * 0.5;
         });
 
         this.el.addEventListener('mouseup', (e) => {
@@ -69,6 +74,8 @@ export default class Game {
 
         window.addEventListener('keydown', (e: KeyboardEvent) => {
             this.keys[e.keyCode] = true;
+            // console.warn(e.keyCode);
+
 
         })
 
@@ -124,9 +131,10 @@ export default class Game {
 
         this.components.forEach(comp => {
             ctx.save();
-            let compOffsetX = comp.x + comp.w * 0.5;
-            let compOffsetY = comp.y + comp.h * 0.5;
+            let compOffsetX = comp.x //+ comp.w * 0.5;
+            let compOffsetY = comp.y //+ comp.h * 0.5;
 
+            // ctx.save();
             ctx.translate(compOffsetX, compOffsetY);
             ctx.rotate(comp.angle);
             ctx.translate(-compOffsetX, -compOffsetY);
@@ -134,6 +142,8 @@ export default class Game {
             // ctx.translate(offsetX + comp.x, offsetY + comp.y);
             // ctx.translate(compOffsetX - comp.w * 0.5 - comp.x, compOffsetY - comp.h * 0.5 - comp.y);
             comp.render(ctx);
+            // ctx.restore();
+
             // ctx.translate(-(compOffsetX - comp.w * 0.5 - comp.x), -(compOffsetY - comp.h * 0.5 - comp.y));
 
             // ctx.translate(-(offsetX - comp.x), -(offsetY - comp.y));

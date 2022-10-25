@@ -4,8 +4,6 @@ export default class Block extends Component {
 
 
     start(): void {
-        this.x = 300;
-        this.y = 300;
     }
     update(dt: number): void {
     }

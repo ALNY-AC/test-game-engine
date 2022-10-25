@@ -1,9 +1,10 @@
 import Component from "../core/Component";
 import Block from "./Block";
+import Npc from "./Npc";
+import Player from "./Player";
 
 export default class Tag extends Component {
 
-    speed: number = 1000;
 
     blocks: Block[] = [];
 
@@ -11,7 +12,10 @@ export default class Tag extends Component {
     }
     update(dt: number): void {
 
-        this.blocks = this.game.components.filter(comp => comp instanceof Block);
+        this.blocks = [
+            ...this.game.components.filter(comp => comp instanceof Player),
+            ...this.game.components.filter(comp => comp instanceof Npc)
+        ];
 
     }
     render(ctx: CanvasRenderingContext2D): void {

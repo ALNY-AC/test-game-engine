@@ -4,10 +4,9 @@ import Player from "./Player";
 
 export default class Npc extends Block {
 
-    speed: number = 500;
+    speed: number = 50;
     targets: V2[] = [];
     target!: V2;
-    velocity: V2 = new V2(0, 0);//速度
     player!: Player;
     dt: number = 0;
     dist: number = 0;
@@ -59,7 +58,7 @@ export default class Npc extends Block {
     render(ctx: CanvasRenderingContext2D): void {
         super.render(ctx);
         ctx.fillStyle = '#f00';
-        ctx.fillRect(this.x, this.y - 1.5, 100, 3);
+        ctx.fillRect(this.x, this.y - 1.5, 30, 3);
         // if (this.target) {
         //     ctx.beginPath();
         //     ctx.strokeStyle = "#fff";

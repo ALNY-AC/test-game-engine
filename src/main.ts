@@ -33,7 +33,7 @@ let player = new Player('player');
 game.addComponent(player);
 
 
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 1; i++) {
     game.addComponent(new Npc('npc'));
 }
 
