@@ -1,4 +1,5 @@
 import Block from './game/components/Block';
+import Camera from './game/components/Camera';
 import Npc from './game/components/Npc';
 import Player from './game/components/Player';
 import Scene from './game/components/Scene';
@@ -15,6 +16,8 @@ canvas.width = 700;
 canvas.height = 700;
 
 const game = new Game();
+game.addComponent(new Camera('Camera'));
+
 game.el = canvas;
 game.run();
 

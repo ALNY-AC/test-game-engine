@@ -1,8 +1,9 @@
 import Block from "./Block";
+import Camera from "./Camera";
 
 export default class Player extends Block {
 
-    speed: number = 1000;
+    speed: number = 300;
 
     start(): void {
     }
@@ -27,13 +28,17 @@ export default class Player extends Block {
         if (this.game.keys[68]) {
             this.x += speed;
         }
+        let camera = <Camera>this.game.find('Camera');
+        if (camera) {
+            camera.offsetX = this.x;
+            camera.offsetY = this.y;
+        }
+
     }
     render(ctx: CanvasRenderingContext2D): void {
         super.render(ctx);
         ctx.fillStyle = '#ff0000';
         ctx.fillRect(this.x, this.y - 1.5, 100, 3);
-
-
     }
 
 }

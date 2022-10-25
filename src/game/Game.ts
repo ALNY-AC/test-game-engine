@@ -1,3 +1,4 @@
+import Camera from "./components/Camera";
 import Scene from "./components/Scene";
 import Component from "./core/Component";
 
@@ -29,8 +30,14 @@ export default class Game {
     initEvent() {
 
         this.el.addEventListener('mousemove', (e) => {
-            this.mouse.x = e.offsetX //- this.sceneWidth * 0.5;
-            this.mouse.y = e.offsetY //- this.sceneHeight * 0.5;
+
+            let camera = <Camera>this.find('Camera');
+
+            let offsetX = camera.offsetX;
+            let offsetY = camera.offsetY;
+
+            this.mouse.x = e.offsetX - offsetX //- this.sceneWidth * 0.5;
+            this.mouse.y = e.offsetY - offsetY //- this.sceneHeight * 0.5;
         });
 
         this.el.addEventListener('mousedown', (e) => {
@@ -51,6 +58,7 @@ export default class Game {
 
         window.addEventListener('keydown', (e: KeyboardEvent) => {
             this.keys[e.keyCode] = true;
+
         })
 
         window.addEventListener('keyup', (e: KeyboardEvent) => {
@@ -82,6 +90,10 @@ export default class Game {
         ctx.fillRect(0, 0, this.sceneWidth, this.sceneHeight);
         ctx.restore();
         // ctx.translate(this.sceneWidth * 0.5, this.sceneHeight * 0.5)
+        let camera = <Camera>this.find('Camera');
+        let offsetX = camera.offsetX;
+        let offsetY = camera.offsetY;
+        ctx.translate(offsetX, offsetY)
         this.components.forEach(comp => {
             ctx.save();
             ctx.translate(comp.x, comp.y);
