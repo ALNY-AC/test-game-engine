@@ -3,6 +3,8 @@ import IComponent from "./IComponent";
 import V2 from "./V2";
 
 export default class Component implements IComponent {
+    static objectCount = 0;
+    uuid: string = '';
     name: string = '';
     game!: Game;
     x = 0;
@@ -13,6 +15,8 @@ export default class Component implements IComponent {
     color = '#ffffff';
     angle = 0;
     constructor(name: string = 'Component') {
+        Component.objectCount++;
+        this.uuid = 'comp_' + Component.objectCount
         this.name = name;
         this.load();
     }
@@ -20,5 +24,8 @@ export default class Component implements IComponent {
     start(): void { }
     update(dt: number): void { }
     render(ctx: CanvasRenderingContext2D): void { }
+    destroy() {
+        this.game.remove(this);
+    }
 
 }

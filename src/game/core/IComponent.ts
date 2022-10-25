@@ -3,4 +3,5 @@ export default interface IComponent {
     start(): void;
     update(dt: number): void;
     render(ctx: CanvasRenderingContext2D): void;
+    destroy(): void;
 }

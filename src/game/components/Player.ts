@@ -10,23 +10,17 @@ export default class Player extends Block {
     zds: Zd[] = [];
     zdIndex = 0;
     zdTime = 0;
-    zdCount = 20;
-    zdTimeMax = 0.1;
+    zdTimeMax = 0.2;
     start(): void {
         // this.x = 500;
         // this.y = 500;
-        this.zds = new Array(this.zdCount).fill('').map(el => new Zd('zd'));
-        this.zds.forEach(zd => {
-            this.game.addComponent(zd);
-        });
-
         this.zdTime = this.zdTimeMax;
     }
     update(dt: number): void {
 
 
         if (this.zdTime >= this.zdTimeMax) {
-            this.zdTime = this.zdTimeMax;
+            this.zdTime = 0;
         } else {
             this.zdTime += dt;
         }
@@ -57,21 +51,21 @@ export default class Player extends Block {
         }
 
         if (this.game.keys[32]) {
+
             if (this.zdTime >= this.zdTimeMax) {
-                this.zdIndex++;
-                if (this.zdIndex >= this.zds.length) {
-                    this.zdTime = 0;
-                    this.zdIndex = 0;
-                }
-                // let zd = new Zd();
-                let zd = this.zds[this.zdIndex];
+                // this.zdIndex++;
+                // if (this.zdIndex >= this.zds.length) {
+                // this.zdTime = 0;
+                // this.zdIndex = 0;
+                // }
+                let zd = new Zd();
+                // let zd = this.zds[this.zdIndex];
                 zd.angle = this.angle;
                 zd.x = this.x;
                 zd.y = this.y;
                 zd.velocity = new V2(Math.cos(zd.angle) * zd.speed * dt, Math.sin(zd.angle) * zd.speed * dt);
+                this.game.addComponent(zd);
             }
-
-            // this.game.addComponent(zd);
         }
     }
     render(ctx: CanvasRenderingContext2D): void {

@@ -20,7 +20,27 @@ const game = new Game();
 game.addComponent(new Camera('Camera'));
 
 game.el = canvas;
-game.run();
+
+let map = [
+    [0, 0, 0, 0, 1, 0, 1, 1, 1],
+    [0, 1, 0, 0, 0, 0, 0, 1, 1],
+    [0, 0, 1, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 1, 1],
+    [0, 1, 0, 0, 1, 0, 1, 1, 1],
+];
+map.forEach((a, i) => {
+    a.forEach((b, j) => {
+        if (b == 1) {
+            let block = new Block();
+            block.color = '#555'
+            block.x = (j * 2) * 20;
+            block.y = (i * 2) * 20;
+            game.addComponent(block);
+        }
+
+
+    })
+})
 
 let scene = new Scene();
 game.addComponent(scene);
@@ -37,8 +57,15 @@ for (let i = 0; i < 1; i++) {
     game.addComponent(new Npc('npc'));
 }
 
+
+
 game.addComponent(new Tag());
 
 
 
 game.addComponent(new Ai());
+
+
+
+
+game.run();

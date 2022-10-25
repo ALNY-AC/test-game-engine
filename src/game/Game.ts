@@ -159,6 +159,9 @@ export default class Game {
         this.components.push(comp);
         comp.start();
     }
+    remove(comp: Component) {
+        this.components = this.components.filter(el => el.uuid != comp.uuid);
+    }
     animate(time: number = 0) {
         this.timeDt = (time - this.timeA) / 1000;
         this.timeA = time;
