@@ -36,16 +36,21 @@ export default class BaseNode {
         return this.id;
     }
 
-    setParent(value: BaseNode): void {
-        this.parent = value;
+    setParent(parentNode: BaseNode): void {
+        parentNode.children.push(this);
+        this.parent = parentNode;
     }
     getParent(): BaseNode | null {
         return this.parent;
     }
 
-    addChild(baseNode: BaseNode): void {
-        this.children.push(baseNode);
+    addChild(childNode: BaseNode): void {
+        childNode.setParent(this);
     }
-    
+
+    addComponent(): void {
+        // this.components.push('')
+    }
+
 
 }
