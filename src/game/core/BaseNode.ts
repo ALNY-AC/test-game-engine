@@ -11,6 +11,11 @@ export default class BaseNode {
     children: Node[] = [];
 
     /**
+     * 节点的名称
+     */
+    name: string = '';
+
+    /**
      * 此节点的唯一id
      */
     id: string = iDGenerator.getNewId();
@@ -36,6 +41,10 @@ export default class BaseNode {
         return this.id;
     }
 
+    constructor(name: string) {
+        this.name = name;
+    }
+
     setParent(parentNode: BaseNode): void {
         parentNode.children.push(this);
         this.parent = parentNode;
@@ -45,12 +54,35 @@ export default class BaseNode {
     }
 
     addChild(childNode: BaseNode): void {
+        this.children.push(childNode);
         childNode.setParent(this);
     }
 
-    addComponent(): void {
-        // this.components.push('')
+    removeChild(nodeName: string): void {
+        const index = this.children.findIndex(el => el.name == nodeName);
+        if (index < 0) return
+        const child = this.children.splice(index, 1)[0];
+        child.destroy();
     }
 
+    addComponent(comp: Component): void {
+        this.components.push(comp)
+    }
+
+    getComponent<T extends Component>(className: any) {
+        this.components.find(el => el instanceof className);
+    }
+
+    removeComponent(className: any) {
+        const index = this.children.findIndex(el => el.name == nodeName);
+        if (index < 0) return
+        const child = this.children.splice(index, 1)[0];
+        child.destroy();
+    }
+
+    destroy() {
+        this.parent = null;
+
+    }
 
 }
