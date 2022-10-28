@@ -1,5 +1,5 @@
-import Scene from "../components/Scene";
 import Component from "./Component";
+import Scene from "./components/Scene";
 import Node from "./Node";
 import IDGenerator from "./utils/IDGenerator";
 const iDGenerator = new IDGenerator('Node');
@@ -28,7 +28,7 @@ export default class BaseNode {
     /**
      * 此节点所在的场景
      */
-    scene?: Screen;
+    scene?: Scene;
 
     /**
      * 此节点激活状态
@@ -41,7 +41,7 @@ export default class BaseNode {
         return this.id;
     }
 
-    constructor(name: string) {
+    constructor(name: string = '') {
         this.name = name;
     }
 
@@ -52,9 +52,7 @@ export default class BaseNode {
     getParent(): BaseNode | null {
         return this.parent;
     }
-
     addChild(childNode: BaseNode): void {
-        this.children.push(childNode);
         childNode.setParent(this);
     }
 
@@ -73,8 +71,8 @@ export default class BaseNode {
         this.components.find(el => el instanceof className);
     }
 
-    removeComponent(className: any) {
-        const index = this.children.findIndex(el => el.name == nodeName);
+    removeComponent(compName: any) {
+        const index = this.children.findIndex(el => el.name == compName);
         if (index < 0) return
         const child = this.children.splice(index, 1)[0];
         child.destroy();
