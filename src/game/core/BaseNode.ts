@@ -58,13 +58,15 @@ export default class BaseNode {
 
     removeChild(nodeName: string): void {
         const index = this.children.findIndex(el => el.name == nodeName);
-        if (index < 0) return
+        if (index < 0) return;
         const child = this.children.splice(index, 1)[0];
         child.destroy();
     }
 
     addComponent(comp: Component): void {
-        this.components.push(comp)
+        this.components.push(comp);
+        comp.node = this;
+        comp.start();
     }
 
     getComponent<T extends Component>(className: any) {
@@ -73,7 +75,7 @@ export default class BaseNode {
 
     removeComponent(compName: any) {
         const index = this.children.findIndex(el => el.name == compName);
-        if (index < 0) return
+        if (index < 0) return;
         const child = this.children.splice(index, 1)[0];
         child.destroy();
     }
@@ -82,5 +84,7 @@ export default class BaseNode {
         this.parent = null;
 
     }
+    start() { }
+    update() { }
 
 }
