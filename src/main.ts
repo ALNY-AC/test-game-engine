@@ -1,14 +1,40 @@
-import Player from "./game/components/Player";
-import BaseNode from "./game/core/BaseNode";
+import Component from "./game/core/Component";
+import Node from "./game/core/Node";
+let depth = 1;
 
-let node = new BaseNode();
-console.warn(node.uuid);
+let rootNode = new Node('root');
+let userNode = new Node('user');
+let npcNode = new Node('npc');
 
-// console.warn(node.);
+rootNode.addChild(userNode);
+rootNode.addChild(npcNode);
 
-node.addChild(new BaseNode('a'));
-node.addChild(new BaseNode('b'));
-node.addChild(new BaseNode('c'));
-console.warn(node.children.map(el => el.name));
-node.removeChild('b');
-console.warn(node.children.map(el => el.name));
+npcNode.addComponent(new Component('wq'));
+npcNode.addComponent(new Component('control'));
+
+let yf = new Component('yf');
+npcNode.addComponent(yf);
+
+
+info(rootNode);
+
+console.warn('====');
+npcNode.removeComponentByName('control');
+
+
+info(rootNode);
+
+function getDept() {
+    return '|' + new Array((depth * 3)).fill('--').join('') + "| ";
+}
+
+function info(node: Node) {
+    console.warn(`${getDept()}Node.${node.name}`);
+    console.warn(`${getDept()}> components:`, node.components.map(c => c.name));
+    console.warn(`${getDept()}> child:`, node.children.map(c => c.name));
+    if (node.children.length <= 0) depth = 1;
+    node.children.forEach(el => {
+        depth++;
+        info(el);
+    })
+}

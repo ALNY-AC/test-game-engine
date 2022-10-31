@@ -37,6 +37,11 @@ export default class BaseNode {
 
     parent: BaseNode | null = null;
 
+    /**
+     * 是否已经被销毁了
+     */
+    isDestroy: Boolean = false;
+
     get uuid() {
         return this.id;
     }
@@ -45,46 +50,81 @@ export default class BaseNode {
         this.name = name;
     }
 
-    setParent(parentNode: BaseNode): void {
+    setParent(parentNode: BaseNode | null): void {
+        if (this.parent == parentNode) return;
+        if (parentNode == null) {
+            this.destroy();
+            return
+        }
+        if (this.parent) {
+            // 先删除，后添加
+            this.parent
+            this.parent = null;
+        }
+
         parentNode.children.push(this);
         this.parent = parentNode;
     }
     getParent(): BaseNode | null {
         return this.parent;
     }
+
     addChild(childNode: BaseNode): void {
         childNode.setParent(this);
     }
 
-    removeChild(nodeName: string): void {
+    removeChild(node: Node): void {
+        this.removeChildByUuid(node.uuid);
+    }
+
+    removeChildByName(nodeName: string): void {
         const index = this.children.findIndex(el => el.name == nodeName);
         if (index < 0) return;
-        const child = this.children.splice(index, 1)[0];
-        child.destroy();
+        this.children.splice(index, 1);
+    }
+
+    removeChildByUuid(uuid: string): void {
+        const index = this.children.findIndex(el => el.uuid == uuid);
+        if (index < 0) return;
+        this.children.splice(index, 1);
     }
 
     addComponent(comp: Component): void {
         this.components.push(comp);
-        comp.node = this;
+        comp.setNode(this);
         comp.start();
     }
 
     getComponent<T extends Component>(className: any) {
-        this.components.find(el => el instanceof className);
+        return this.components.find(el => el instanceof className);
     }
 
-    removeComponent(compName: any) {
-        const index = this.children.findIndex(el => el.name == compName);
+    removeComponent(className: Component) {
+        this.removeComponentByUuid(className.uuid);
+    }
+
+    removeComponentByName(name: any) {
+        const index = this.components.findIndex(el => el.name == name);
         if (index < 0) return;
-        const child = this.children.splice(index, 1)[0];
-        child.destroy();
+        this.components.splice(index, 1);
+    }
+
+    removeComponentByUuid(uuid: any) {
+        const index = this.components.findIndex(el => el.uuid == uuid);
+        if (index < 0) return;
+        this.components.splice(index, 1);
     }
 
     destroy() {
+        // 解绑父节点
+        if (this.isDestroy) return;
+        this.isDestroy = true;
+        if (this.parent) this.parent.removeChild(this);
+        this.components.forEach(el => {
+            el.destroy();
+        });
+
         this.parent = null;
 
     }
-    start() { }
-    update() { }
-
 }

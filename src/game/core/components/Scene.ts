@@ -1,1 +1,1 @@
-export default class Scene { }
+export default class Scene extends Node { }
