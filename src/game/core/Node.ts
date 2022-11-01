@@ -1,4 +1,5 @@
 import BaseNode from "./BaseNode";
+import Model from "./Model";
 import Vec2 from "./Vec2";
 
 export default class Node extends BaseNode {
@@ -12,6 +13,7 @@ export default class Node extends BaseNode {
     group: string = '';
     zIndex: number = 0;
     color: string = '#FFFFFF';
+    model: Model = new Model();
 
     get x() { return this.position.x }
     get y() { return this.position.y }

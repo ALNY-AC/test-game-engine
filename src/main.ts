@@ -10,11 +10,22 @@ game.scene = new Scene('场景1');
 game.init('#gameApp');
 game.run();
 
-let npc = new Cube('npc 1');
-let npcNode = new Node('npc');
-npcNode.addComponent(npc);
+let root = new Node('root');
 
-game.scene.addChild(npcNode);
+
+
+// game.scene.addChild(npcNode);
+// root.scene = game.scene;
+game.scene.addChild(root);
+root.scene = game.scene;
+
+
+let npcNode = new Node('npc');
+npcNode.addComponent(new Cube('npc 1'));
+
+console.warn(root.scene);
+
+root.addChild(npcNode);
 
 // import Component from "./game/core/Component";
 // import Node from "./game/core/Node";

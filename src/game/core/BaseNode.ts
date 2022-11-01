@@ -28,7 +28,7 @@ export default class BaseNode {
     /**
      * 此节点所在的场景
      */
-    scene?: Scene;
+    scene!: Scene;
 
     /**
      * 此节点激活状态
@@ -50,7 +50,7 @@ export default class BaseNode {
         this.name = name;
     }
 
-    setParent(parentNode: BaseNode | null): void {
+    setParent(parentNode: BaseNode): void {
         if (this.parent == parentNode) return;
         if (parentNode == null) {
             this.destroy();
@@ -70,6 +70,8 @@ export default class BaseNode {
     }
 
     addChild(childNode: BaseNode): void {
+
+        childNode.scene = this.scene;
         childNode.setParent(this);
     }
 

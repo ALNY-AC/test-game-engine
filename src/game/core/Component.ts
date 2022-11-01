@@ -4,7 +4,7 @@ const iDGenerator = new IDGenerator('Component');
 
 export default class Component {
 
-    node: Node | null = null;
+    node!: Node;
     name: string;
 
     /**
@@ -25,10 +25,10 @@ export default class Component {
     constructor(name: string = '') {
         this.name = name;
     }
-    setNode(node: Node | null) {
+    setNode(node: Node) {
         this.node = node;
     }
-    getNode(): Node | null {
+    getNode(): Node | undefined {
         return this.node;
     }
 
@@ -43,6 +43,6 @@ export default class Component {
         if (this.node) {
             this.node.removeComponent(this);
         }
-        this.setNode(null);
+        // this.setNode(null);
     };
 }
