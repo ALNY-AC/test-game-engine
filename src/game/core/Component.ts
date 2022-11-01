@@ -33,7 +33,7 @@ export default class Component {
     }
 
     start(): void { }
-    update(): void { }
+    update(dt: number): void { }
     onDestroy(): void { }
 
     destroy(): void {
