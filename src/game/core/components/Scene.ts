@@ -7,7 +7,6 @@ export default class Scene extends Node {
     nodes: Node[] = [];
 
     update() {
-        this.nodes = [];
     }
 
     render(ctx: CanvasRenderingContext2D) {
@@ -25,9 +24,10 @@ export default class Scene extends Node {
             ctx.closePath();
             ctx.stroke(); //绘制路径。
             // ctx.fill()
-            ctx.restore();
             ctx.translate(-node.x, -node.y);
+            ctx.restore();
         })
+        this.nodes = [];
     }
     /**
      * 提交渲染，每帧提交。

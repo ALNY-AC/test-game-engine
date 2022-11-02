@@ -17,8 +17,6 @@ export default class Cube extends Component {
     }
 
     update(dt: number) {
-
-
-        this.node.scene?.submitModel(this.node);
+        this.node.scene.submitModel(this.node);
     }
 }

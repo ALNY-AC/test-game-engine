@@ -88,7 +88,9 @@ export default class Game {
         ctx.textAlign = "left";
         ctx.fillText(`FPS ${this.fps}`, 10, 20);
         ctx.restore();
+        ctx.save();
         if (this.scene) this.scene.render(ctx);
+        ctx.restore();
 
     }
 
@@ -103,9 +105,6 @@ export default class Game {
             el.update(dt);
         });
         node.children.forEach(el => {
-            el.components.forEach(cp => {
-                cp.update(dt);
-            });
             this.loop(el);
         })
     }
